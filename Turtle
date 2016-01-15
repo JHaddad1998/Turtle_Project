@@ -1,0 +1,192 @@
+import java.util.Scanner;
+
+/**
+ * Created by Joey C on 1/14/2016.
+ */
+public class Turtle {
+    static Scanner input = new Scanner(System.in);
+
+    private int row, col;
+    private boolean pen_up;
+    private int direction;
+
+    public Turtle(int row, int col, boolean pen_up, int direction) {
+        this.row = row;
+        this.col = col;
+        this.pen_up = pen_up;
+        this.direction = direction;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public boolean isPen_up() {
+        return pen_up;
+    }
+
+    public void setPen_up(boolean pen_up) {
+        this.pen_up = pen_up;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public String getStringDirection() {
+        if (direction == 1)
+            return "North";
+
+        else if (direction == 2)
+            return "East";
+        else if (direction == 3)
+            return "South";
+        else if (direction == 4)
+            return "West";
+        else return null;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public void Move(Turtle turtle, boolean[][] array) {
+        System.out.print("How many steps?: ");
+        int numberOfSteps = input.nextInt();
+        if (numberOfSteps < 0) {
+            System.out.println("\nCant input negative numbers");
+            return;
+        }
+        if (pen_up == true && direction == 1) {
+            if (checkwithinArray(turtle, numberOfSteps, direction))
+                turtle.setRow(turtle.row - numberOfSteps);
+            else
+                turtle.setRow(0);
+        } else if (pen_up == true && direction == 2) {
+            if (checkwithinArray(turtle, numberOfSteps, direction))
+                turtle.setCol(turtle.getCol() + numberOfSteps);
+            else
+                turtle.setCol(9);
+        } else if (pen_up == true && direction == 3) {
+            if (checkwithinArray(turtle, numberOfSteps, direction))
+                turtle.setRow(turtle.getRow() + numberOfSteps);
+            else
+                turtle.setRow(9);
+        } else if (pen_up == true && direction == 4) {
+            if (checkwithinArray(turtle, numberOfSteps, direction))
+                turtle.setCol(turtle.getCol() - numberOfSteps);
+            else
+                turtle.setCol(0);
+        } else if (direction == 1) {
+            int w = turtle.getRow();
+            if (checkwithinArray(turtle, 1, direction))
+                for (int i = turtle.getRow(); i <= numberOfSteps - w; i--) {
+                    array[turtle.getRow()][turtle.getCol()] = true;
+                    if (checkwithinArray(turtle, 1, direction) == false)
+                        return;
+                    turtle.setRow(i);
+                }
+
+        } else if (direction == 2) {
+            int w = turtle.getCol();
+            if (checkwithinArray(turtle, 1, direction))
+                for (int i = turtle.getCol(); i <= numberOfSteps + w; i++) {
+                    System.out.println("\n" + turtle.getCol());
+
+                    array[turtle.getRow()][turtle.getCol()] = true;
+                    if (checkwithinArray(turtle, 1, direction) == false)
+                        return;
+                    turtle.setCol(i);
+                }
+
+        } else if (direction == 3) {
+            int w = turtle.getCol();
+            if (checkwithinArray(turtle, 1, direction))
+                for (int i = turtle.getRow(); i <= numberOfSteps + w; i++) {
+                    System.out.println("\n" + turtle.getRow());
+
+                    array[turtle.getRow()][turtle.getCol()] = true;
+                    if (checkwithinArray(turtle, 1, direction) == false)
+                        return;
+                    turtle.setRow(i);
+                }
+
+
+        } else if (direction == 4) {
+            int w = turtle.getCol();
+            if (checkwithinArray(turtle, 1, direction))
+                for (int i = turtle.getCol(); i <= w - numberOfSteps; i--) {
+                    array[turtle.getRow()][turtle.getCol()] = true;
+                    if (checkwithinArray(turtle, 1, direction) == false)
+                        return;
+                    turtle.setCol(i);
+                }
+        }
+    }
+
+
+    public boolean checkwithinArray(Turtle turtle, int numberofsteps, int direction) {
+        //when pen is up it will walk with this code
+        if (numberofsteps > 0) {
+            if (direction == 1) {
+                if (turtle.getRow() - numberofsteps >= 0) {
+                    return true;
+                }
+            } else if (direction == 2) {
+                if (turtle.getCol() + numberofsteps < 10) {
+                    return true;
+                }
+            } else if (direction == 3) {
+                if (turtle.getRow() + numberofsteps < 10) {
+                    return true;
+                }
+            } else if (direction == 4) {
+                if (turtle.getCol() - numberofsteps >= 0) {
+                    return true;
+                }
+            }
+        }
+
+        //need to write code for when pen is down before returning false
+
+        return false;
+    }
+
+    public void TurnRight(Turtle turtle) {
+        if (turtle.getDirection() < 4)
+            turtle.setDirection(direction + 1);
+        else
+            turtle.setDirection(1);
+    }
+
+
+    public void TurnLeft(Turtle turtle) {
+        if (turtle.getDirection() > 1)
+            turtle.setDirection(direction - 1);
+        else
+            turtle.setDirection(4);
+    }
+
+    public void PutpenDown(Turtle turtle) {
+        turtle.setPen_up(false);
+        System.out.println("pen is " + turtle.isPen_up());
+    }
+
+    public void Pickpenup(Turtle turtle) {
+        turtle.setPen_up(true);
+        System.out.println("pen is " + turtle.isPen_up());
+
+    }
+}
