@@ -1,0 +1,81 @@
+import java.lang.reflect.Array;
+import java.util.Scanner;
+
+/**
+ * Created by Joey C on 1/14/2016.
+ * Version 0.0.1
+ */
+public class Main {
+    static boolean[][] array = new boolean[10][10];
+    static Scanner input = new Scanner(System.in);
+    static Turtle turtle = new Turtle(0, 0, true, 2);
+
+    public static void main(String args[]) {
+        int choice = menu();
+        while (choice != 7) {
+            if (choice == 1) {
+                turtle.Move(turtle, array);
+            }
+            if (choice == 2)
+                turtle.TurnRight(turtle);
+            if (choice == 3) {
+                turtle.TurnLeft(turtle);
+            }
+            if (choice == 4) {
+                turtle.PutpenDown(turtle);
+            }
+            if (choice == 5) {
+                turtle.Pickpenup(turtle);
+            }
+            if (choice == 6) {
+                Print();
+            }
+            choice = menu();
+        }
+    }
+
+
+    private static void Print() {
+        System.out.print("\n ---------------------------------------------");
+        for (int i = 0; i < array.length; i++) {
+
+            for (int j = 0; j < array[i].length; j++) {
+                if (j == 0)
+                    System.out.print("\n |\t");
+                if (i == turtle.getRow() && j == turtle.getCol())
+                    System.out.print("T\t");
+
+                else if (array[i][j] == true)
+                    System.out.print("*\t");
+
+                else if (array[i][j] == false)
+                    System.out.print("-\t");
+
+            }
+            System.out.print(" |");
+
+        }
+        System.out.println("\n ---------------------------------------------");
+        System.out.println("Key: * = Pen Mark, - = Empty, T = Your Loacation ");
+
+        System.out.println("\n\t\t\t  You are facing " + turtle.getStringDirection());
+        System.out.println("\n\t\t\t\t    North \n\t\t\t   West\t      East\n\t\t\t\t    South");
+
+    }
+
+    private static int menu() {
+        System.out.println();
+        System.out.println("1. Move");
+        System.out.println("2. Turn Right");
+        System.out.println("3. Turn Left");
+        System.out.println("4. Put Pen Down");
+        System.out.println("5. Pick up Pen");
+        System.out.println("6. Print");
+        System.out.println("7. Exit");
+
+        System.out.println();
+        System.out.println("Enter Choice");
+        return input.nextInt();
+
+    }
+}
